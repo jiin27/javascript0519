@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gallery효과</title>
+    <style>
+        #wrapper{
+            width: 1500px;
+            height: 1020px;
+            background: whitesmoke;
+            margin: auto;
+        }
+        #mask{
+            width: 500px;
+            height: 340px;
+            background: whitesmoke;
+            position: absolute;
+        }
+    </style>
+    <script>
+        let box;
+
+        //이미지 9개를 포함할 박스 만들기
+        function init(){
+            box=document.createElement("div");
+            box.style.position="absolute";
+            box.style.width=500*3+"px";
+            box.style.top=340*3+"px";
+            box.style.left=0+"px";
+            box.style.top=0+"px";
+
+            for(let i=1; i<=9; i++){
+                let img=document.createElement("img");
+                img.src="../images/shrek/img"+i+".jpg";
+                img.style.position="absolute";
+                img.style.left=0+"px";
+                img.style.top=0+"px";
+                box.appendChild(img);
+            }
+
+            let mask=document.getElementById("mask");
+            mask.appendChild(box);
+        }
+
+        addEventListener("load", function(){
+            init();
+        });
+
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="mask"></div>
+    </div>
+</body>
+</html>

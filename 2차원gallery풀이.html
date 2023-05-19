@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2차원gallery풀이</title>
+    <style>
+        /* 액자 역할의 div */
+        #wrapper{
+            width: 200px;
+            height: 200px;
+            background: beige;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        let box;
+        let targetX=0;
+        let targetY=0;
+        let h1; //정보창
+        let a=0.1;
+
+        //키보드 누를 때마다 box를 움직일 함수 정의
+        function move(){
+            //아래의 코드가 수행되기 전에, 범위 밖의 targetX와 targetY값은 걸러내자.
+            if(targetX<-400){//좌측버튼을 아무리 눌러도 x축은 -400으로 유지
+                targetX=-400;
+            }else if(targetX>0){
+                targetX=0;
+            }
+
+            if(targetY>0){//좌측버튼을 아무리 눌러도 x축은 -400으로 유지
+                targetY=0;
+            }else if(targetY<-400){
+                targetY=-400;
+            }
+
+            box.style.left=parseFloat(box.style.left)+a*(targetX-parseFloat(box.style.left))+"px"; //x축이 몇 만큼 움직여야 하는지는 변수
+            box.style.top=parseFloat(box.style.top)+a*(targetY-parseFloat(box.style.top))+"px"; //y축이 몇 만큼 움직여야 하는지는 변수
+
+            //정보출력 -> 실시간으로 계속 정보를 줘야 하므로 setInterval 자동함수가 작동된 move() 함수 안에 넣기.
+            h1.innerText="targetX:"+targetX+" \ntargetY:"+targetY; //\n -> 역슬래쉬 n이 innerText에서 줄바꿈!
+        }
+
+        //이미지 9개를 감싸안을 div생성
+        function init(){
+            box=document.createElement("div");
+            box.style.width=200*3+"px";
+            box.style.height=200*3+"px";
+            box.style.background="plum";
+            box.style.position="absolute"; //액자를 부모로 두는 박스
+            box.style.left=0+"px";
+            box.style.top=0+"px";
+
+            //생성된 박스에 이미지를 동적으로 9개 생성하여 부착
+            let n=0; //이미지 명에 써먹을 변수 1~9
+            for(let k=0; k<3; k++){
+                for(let i=0; i<3; i++){
+                    n++;
+                    let img=document.createElement("img");
+                    img.src="../images/shrek/img"+n+".jpg";
+                    img.style.width=200+"px";
+                    img.style.height=200+"px";
+                    img.style.position="absolute";
+                    img.style.left=i*200+"px";
+                    img.style.top=k*200+"px";
+                    box.appendChild(img);
+                }
+            }
+
+            let wrapper=document.getElementById("wrapper");
+            wrapper.appendChild(box);
+
+        }
+
+        addEventListener("load", function(){
+            init();
+            setInterval("move()", 10);
+
+            //키보드 이벤트 연결하기(문서가 로드되면서 동시에 작동이 적용돼야 하므로)
+            //키보드 이벤트를 연결할 주체는 문서 전체. 특정 버튼이 화면에 없기 때문에.
+            document.body.addEventListener("keydown", function(){
+                //어떤 키를 눌렀느냐에 따라 식을 다르게 적용
+                //4가지 이상의 다중적인 조건을 따져야 하므로 
+                //else~if 혹은 switch~case문을 사용해야 한다.
+                let key=event.keyCode; //사용자가 누른 아스키 코드 값
+                switch(key){
+                    case 37:targetX=targetX-200; break;
+                    case 39:targetX=targetX+200; break; //우측 방향키
+                    case 38:targetY=targetY-200; break; //위쪽 방향키
+                    case 40:targetY=targetY+200; break; //아래쪽 방향키
+                }
+            });
+            h1=document.querySelector("h1");
+        });
+    </script>
+</head>
+<body>
+    <h1>
+        targetX:0<br>
+        targetY:0
+    </h1>
+    <div id="wrapper"></div>
+</body>
+</html>

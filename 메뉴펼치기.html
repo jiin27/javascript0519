@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메뉴펼치기</title>
+    <style>
+        #wrapper{
+            width: 600px;
+            height: 600px;
+            background: whitesmoke;
+            margin: auto;
+            position: relative;
+        }
+    </style>
+    <script>
+        let content;
+        let a=0.1;
+        let targetH=40;
+
+        function draw(){
+            content.style.height=parseFloat(content.style.height)+a*(targetH-parseFloat(content.style.height))+"px";
+        }
+
+        function init(){
+            content=document.getElementById("content");
+            content.style.position="absolute";
+            content.style.width=100+"px";
+            content.style.height=40+"px";
+            content.style.background="plum";
+            content.style.left=250+"px";
+            content.style.top=100+"px";
+        }
+
+        addEventListener("load", function(){
+            init();
+            setInterval("draw()", 10);
+
+            content.addEventListener("mouseover", function(){
+                targetH=300;
+            });
+
+            content.addEventListener("mouseout", function(){
+                targetH=40;
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="content">
+        </div>
+    </div>
+</body>
+</html>
